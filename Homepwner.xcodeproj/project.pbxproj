@@ -20,7 +20,6 @@
 		5E2243981E78CB490081A8BC /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2243971E78CB490081A8BC /* ItemCell.swift */; };
 		5E2D02DE1E9B2A1C004E2715 /* NewItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2D02DD1E9B2A1C004E2715 /* NewItemController.swift */; };
 		5E7A50A31E82DE6D00A2B8D6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7A50A21E82DE6D00A2B8D6 /* DetailViewController.swift */; };
-		5EF7350B1E9B695A00F331C9 /* DateCreatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF7350A1E9B695A00F331C9 /* DateCreatedViewController.swift */; };
 		5EF7350F1E9B713500F331C9 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF7350E1E9B713500F331C9 /* LocationViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,7 +60,6 @@
 		5E2243971E78CB490081A8BC /* ItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		5E2D02DD1E9B2A1C004E2715 /* NewItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemController.swift; sourceTree = "<group>"; };
 		5E7A50A21E82DE6D00A2B8D6 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		5EF7350A1E9B695A00F331C9 /* DateCreatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateCreatedViewController.swift; path = ../DateCreatedViewController.swift; sourceTree = "<group>"; };
 		5EF7350E1E9B713500F331C9 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationViewController.swift; path = ../LocationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,7 +116,6 @@
 				5EF7350E1E9B713500F331C9 /* LocationViewController.swift */,
 				5E2D02DD1E9B2A1C004E2715 /* NewItemController.swift */,
 				5E7A50A21E82DE6D00A2B8D6 /* DetailViewController.swift */,
-				5EF7350A1E9B695A00F331C9 /* DateCreatedViewController.swift */,
 				5E0450241E89AF6B00D6BBE4 /* ImageStore.swift */,
 				5E2243931E7883C20081A8BC /* Item.swift */,
 				5E2243951E7889100081A8BC /* ItemStore.swift */,
@@ -290,7 +287,6 @@
 				5E7A50A31E82DE6D00A2B8D6 /* DetailViewController.swift in Sources */,
 				5E2243641E7881AF0081A8BC /* AppDelegate.swift in Sources */,
 				5EF7350F1E9B713500F331C9 /* LocationViewController.swift in Sources */,
-				5EF7350B1E9B695A00F331C9 /* DateCreatedViewController.swift in Sources */,
 				5E0450251E89AF6B00D6BBE4 /* ImageStore.swift in Sources */,
 				5E2243981E78CB490081A8BC /* ItemCell.swift in Sources */,
 				5E2D02DE1E9B2A1C004E2715 /* NewItemController.swift in Sources */,

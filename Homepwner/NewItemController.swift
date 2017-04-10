@@ -10,13 +10,15 @@ import UIKit
 import os.log
 
 
-class NewItemController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate{
+class NewItemController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var nameField: UITextField!
     @IBOutlet var serialNumberField: UITextField!
     @IBOutlet var valueField: UITextField!
     @IBOutlet var dateLabel: UILabel!
+    @IBOutlet weak var dateCreated: UITextField!
+    @IBOutlet weak var location: UITextField!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -49,6 +51,34 @@ class NewItemController: UIViewController, UITextFieldDelegate, UINavigationCont
         present(imagePicker, animated: true, completion: nil)
     }
     
+    let locationOptions = ["Bedroom","Bathroom","Kitchen","Dining Room", "Living Room", "Garage"]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return locationOptions[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return locationOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        location.text = locationOptions[row]
+    }
+    
+    func datePickerValueChanged(sender: UIDatePicker) {
+        let formatter = DateFormatter()
+        
+        formatter.dateStyle = DateFormatter.Style.medium
+        formatter.timeStyle = DateFormatter.Style.none
+        
+        dateCreated.text = formatter.string(from: sender.date)
+    }
+
+    
     //method to configure a view controller before it's presented
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -64,9 +94,10 @@ class NewItemController: UIViewController, UITextFieldDelegate, UINavigationCont
         let serialNumber = serialNumberField.text ?? ""
         //let value = valueField.text
         let valueInDollars = 0
+        let location = self.location.text ?? ""
         
         //set the item to be passed to ItemsViewController after the unwind segue
-        item = Item(name: name, serialNumber: serialNumber, valueInDollars: valueInDollars)
+        item = Item(name: name, serialNumber: serialNumber, valueInDollars: valueInDollars, location: location)
     }
     
    func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -101,6 +132,18 @@ class NewItemController: UIViewController, UITextFieldDelegate, UINavigationCont
         
         //Enable the save button only if the text field has a valid item name
         updateSaveButtonState()
+        
+        let theLocationPicker = UIPickerView()
+        location.inputView = theLocationPicker
+        
+        theLocationPicker.delegate = self
+        
+        let datePicker = UIDatePicker()
+        
+        datePicker.datePickerMode = UIDatePickerMode.date
+        datePicker.addTarget(self, action: #selector(DetailViewController.datePickerValueChanged(sender:)), for: UIControlEvents.valueChanged)
+        
+        dateCreated.inputView = datePicker
     }
     
 }

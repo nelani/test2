@@ -8,9 +8,9 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIPickerViewDelegate, UIPickerViewDataSource {
     
-    //Add four new outlets and make connections
+    //Add new outlets and make connections
     
     
     @IBOutlet var imageView: UIImageView!
@@ -18,7 +18,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
     @IBOutlet var serialNumberField: UITextField!
     @IBOutlet var valueField: UITextField!
     @IBOutlet var dateLabel: UILabel!
-    
+    @IBOutlet weak var location: UITextField!
+    @IBOutlet weak var dateCreated: UITextField!
     @IBAction func takePicture(_ sender: UIBarButtonItem) {
         let imagePicker = UIImagePickerController()
         
@@ -35,6 +36,63 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         //Place image picker on the screen 
         present(imagePicker, animated: true, completion: nil)
     }
+ 
+    
+    let locationOptions = ["Bedroom","Bathroom","Kitchen","Dining Room", "Living Room", "Garage"]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return locationOptions[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return locationOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        location.text = locationOptions[row]
+    }
+    
+    func datePickerValueChanged(sender: UIDatePicker) {
+        let formatter = DateFormatter()
+        
+        formatter.dateStyle = DateFormatter.Style.medium
+        formatter.timeStyle = DateFormatter.Style.none
+        
+        dateCreated.text = formatter.string(from: sender.date)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let theLocationPicker = UIPickerView()
+        location.inputView = theLocationPicker
+        
+        theLocationPicker.delegate = self
+        
+        let datePicker = UIDatePicker()
+        
+        datePicker.datePickerMode = UIDatePickerMode.date
+        datePicker.addTarget(self, action: #selector(DetailViewController.datePickerValueChanged(sender:)), for: UIControlEvents.valueChanged)
+        
+        dateCreated.inputView = datePicker
+        
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
    
     @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
@@ -47,6 +105,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         }
     }
     
+
     //create an instance of ImageStore to fetch and store images
     var imageStore: ImageStore!
     
@@ -68,16 +127,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         return formatter
     }()
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "changeDate"?:
-            let dateCreatedViewController = segue.destination as! DateCreatedViewController
-            dateCreatedViewController.item = item
-        default:
-            preconditionFailure("Unexpected segue identifier.")
-        }
-    }
-
+    
     //override viewWillAppear to set up interface to show the text to the appropriate values
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -85,7 +135,9 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         nameField.text = item.name
         serialNumberField.text = item.serialNumber
         valueField.text = numberFormatter.string(from: NSNumber(value: item.valueInDollars))
-        dateLabel.text = dateFormatter.string(from: item.dataCreated)
+        location.text = item.location
+        //dateCreated.text = item.dataCreated
+      
         
         //Get the item key
         let key = item.itemKey
@@ -105,6 +157,8 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UINavigationC
         //"save" changes to item
         item.name = nameField.text ?? ""
         item.serialNumber = serialNumberField.text
+        item.location = location.text
+        //item.dataCreated = dateCreated.text
         
         if let valueText = valueField.text,
             let value = numberFormatter.number(from: valueText){

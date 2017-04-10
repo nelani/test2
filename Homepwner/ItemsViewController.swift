@@ -12,35 +12,34 @@ class ItemsViewController: UITableViewController {
     
     var itemStore: ItemStore!
     
-    var IndexArray = ["Bedroom","Bathroom","Kitchen","Dining Room", "Living Room", "Garage"]
+    /*var IndexArray = ["Bedroom","Bathroom","Kitchen","Dining Room", "Living Room", "Garage"]*/
     
     //create an instance of ImageStore to fetch and store images
     var imageStore: ImageStore!
     
-    @IBAction func unwindToItemStore(sender: UIStoryboardSegue){
-        if let sourceViewController = sender.source as? NewItemController, let item = sourceViewController.item {
-            //add a new item
+    @IBAction func unwindToItemsList(sender: UIStoryboardSegue){
+        if let sourceViewController = sender.source as? NewItemController, let item = sourceViewController.item{
+            //Add new Item
             let newIndexPath = IndexPath(row: itemStore.allItems.count, section: 0)
+        
+            itemStore.allItems.append(item)
             
-            itemStore.createItem(item)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
-            
         }
     }
-    
     
     //Implement tableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemStore.allItems.count
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    /*override func numberOfSections(in tableView: UITableView) -> Int {
         return IndexArray.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return IndexArray[section]
-    }
+    }*/
     
     
     //Implement tableView so that the nth row displays the nth entry in the allItems array
